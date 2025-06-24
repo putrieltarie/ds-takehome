@@ -24,3 +24,12 @@ data_credit_copy$group <- ntile(data_credit_copy$yhat_prob, 10)
 calib_data <- data_credit_copy %>%
   group_by(group) %>%
   summarise(actual = mean(default), predicted = mean(yhat_prob))
+
+# Plot Probability Calibration
+plot_calib <- ggplot(calib_data, aes(x = predicted, y = actual)) +
+  geom_line(color = "blue") +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "green") +
+  labs(title = "Calibration Curve", x = "Avg Predicted Probability", y = "Avg Actual Default Rate") +
+  theme_minimal()
+
+ggsave("calibration_curve.png", plot = plot_calib, width = 6, height = 4)
