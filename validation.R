@@ -12,3 +12,6 @@ library(glmtoolbox)
 model <- glm(default ~ age + monthly_income + loan_amount + previous_defaults + credit_score, data = credit_scoring, family = binomial())
 summary(model)
 
+#uji godness of fit --> hosmer-lemeshow
+hosmer_result <- hltest(model) #default g=10
+# p-value > 0.72574 : artinya model fit (cocok)
