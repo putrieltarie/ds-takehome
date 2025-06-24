@@ -14,4 +14,13 @@ summary(model)
 
 #uji godness of fit --> hosmer-lemeshow
 hosmer_result <- hltest(model) #default g=10
-# p-value > 0.72574 : artinya model fit (cocok)
+# p-value > 0.72574 : artinya model
+
+
+# prob calib with bins 10
+data_credit_copy$yhat_prob <- predict(model, type = "response")
+data_credit_copy$group <- ntile(data_credit_copy$yhat_prob, 10)
+
+calib_data <- data_credit_copy %>%
+  group_by(group) %>%
+  summarise(actual = mean(default), predicted = mean(yhat_prob))
